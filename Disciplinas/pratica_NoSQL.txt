@@ -1,0 +1,54 @@
+Criar um banco de dados utilizado para capturar dados de redes sociais para capturar sentimentos.
+
+Criar o banco com o comando use
+
+use SocialMidias
+
+Criar as coleções:
+
+Duas formas, implícita e explicita:
+
+Implícita:
+
+db.messages.insert (
+{
+nome: "Augusto Zadra",
+message:"Adorei a compra",
+date: "2021-11-22"
+}
+)
+
+Explícita:
+
+db.createCoolection("Usuarios")
+
+Inserindo vários registros:
+
+db.posts.insert(
+[
+{nome":"Alan Ruschel",message:"O bitcoin tá caro", date:"2021-10-01"},
+{nome":"Ademir Fumacinha",message:"Flamengo perdeu", date:"2021-10-23"},
+{nome":"Givanildo Hulk",message:"O Galo ganhou", date:"2021-10-23"},
+{nome":"Renato Gremista",message:"Libertadores 2022", date:"2021-10-23"},
+]);
+
+
+Pesquisa básica:
+
+db.posts.find ({nome:"Augusto Zadra"})
+
+Pesquisa genérica que traz tudo:
+
+db.posts.find();
+
+Para trazer a chave registrada:
+
+db.posts.find().pretty()
+
+Limitar retorno a um documento:
+
+db.posts.findOne();
+
+Importar um file JSON collection:
+
+mongimport.exe --db nome_do_banco --collection nome_da_colection --file: "Caminho do file.json"

@@ -1,0 +1,90 @@
+version: "2"
+
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: docker.io/bitnami/zookeeper:3.8
+    ports:
+      - "2181:2181"
+    volumes:
+      - "${ZOOKEEPER_PATH}:/bitnami" 
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    hostname: zk1
+    networks:
+      - kafka-spark
+  kafka:
+    container_name: kafka
+    image: docker.io/bitnami/kafka:3.1
+    ports:
+      - "9092:9092"
+    volumes:
+      - "${KAFKA_PATH}:/bitnami"
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    hostname: kafka1
+    depends_on:
+      - zookeeper
+    networks:
+      - kafka-spark
+  flume:
+    container_name: flume
+    build:
+      context: .
+      dockerfile: flume_teste.dockerfile
+    depends_on: 
+      - kafka
+    ports:
+      - "40000:40000" 
+    volumes:
+      - ${FLUME_PATCH_CONF}:/root/flume/conf  
+      - ${FLUME_PATH_BIN}:/root/flume/bin
+    hostname: flume1
+    networks:
+      - kafka-spark
+    tty: true
+  webapp:
+    container_name: spark_flume
+    build:
+      context: .
+      dockerfile: spark.dockerfile
+    command: start.sh jupyter lab --LabApp.token=''
+    ports:
+      - "8888:8888"
+    volumes:
+      - ${NOTEBOOKS_PATH}:/home/jovyan/work/notebooks/
+      - ${SPARK_PATH}:/home/jovyan/work/dados/
+    environment:
+      PYARROW_IGNORE_TIMEZONE: 1
+    networks:
+      - kafka-spark
+  nimbus:
+    platform: linux/x86_64
+    image: storm
+    container_name: nimbus
+    command: storm nimbus
+    depends_on:
+      - zookeeper
+    links:
+      - zookeeper
+    restart: always
+    ports:
+      - 6627:6627
+
+  supervisor:
+    platform: linux/x86_64
+    image: storm
+    container_name: supervisor
+    command: storm supervisor
+    depends_on:
+      - nimbus
+      - zookeeper
+    links:
+      - nimbus
+      - zookeeper
+    restart: always
+
+networks:
+  kafka-spark:
+    driver: bridge

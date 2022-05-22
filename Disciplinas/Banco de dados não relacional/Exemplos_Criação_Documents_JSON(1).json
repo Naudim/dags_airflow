@@ -1,0 +1,161 @@
+{"numeroConcurso" : null}   ,
+
+{"houveGanhador" : true},
+
+{"Bola1" : 5}
+
+{"nomeConcurso" : "LotoFácil"};
+
+{"dataSorteio" :  new Date(20211202201015003)}
+
+{"Cidades" : ["São Paulo", "Rio de Janeiro", "Belo Horizonte"]}
+
+
+{
+    "Primeiro Nome" : "Augusto",
+    "Ultimo Nome"   : "Zadra",
+    "Idade"         : 35,
+    "email"         :"az@email.com.br",
+    "endereço"      : [
+                       {
+                        "cidade": "Brasília",
+                        "estado": "Brasília",
+                        "país"  : "Brasil"
+                       }
+                      ]
+}
+
+
+> db.MegaSena.NumerosSorteados.insertOne({                                                                                                                         
+    "Numero Sorteio" : NumberInt(1),
+    "Bola1"          : NumberInt(2),
+    "Bola2"          : NumberInt(3),
+    "Bola3"          : NumberInt(5),
+    "Bola4"          : NumberInt(6),
+    "Bola5"          : NumberInt(23),
+    "Bola6"          : NumberInt(35)
+ });
+
+
+> db.MegaSena.NumerosSorteados.insertMany([
+{"NumeroSorteio" :NumberInt(2), "Bola1"  : NumberInt(09),  "Bola2"  : NumberInt(15) , "Bola3"  : NumberInt(30) , "Bola4"  : NumberInt(33) , "Bola5"  : NumberInt(35) , "Bola6"  : NumberInt(59) , "DataSorteio" : Date('2003-09-29 20:40:00')},
+{"NumeroSorteio" :NumberInt(3), "Bola1"  : NumberInt(16),  "Bola2"  : NumberInt(23) , "Bola3"  : NumberInt(23) , "Bola4"  : NumberInt(29) , "Bola5"  : NumberInt(37) , "Bola6"  : NumberInt(52) , "DataSorteio" : Date('2003-10-06 20:40:00')},
+{"NumeroSorteio" :NumberInt(4), "Bola1"  : NumberInt(02),  "Bola2"  : NumberInt(08) , "Bola3"  : NumberInt(14) , "Bola4"  : NumberInt(38) , "Bola5"  : NumberInt(44) , "Bola6"  : NumberInt(55) , "DataSorteio" : Date('2003-10-13 20:40:00')},
+{"NumeroSorteio" :NumberInt(5), "Bola1"  : NumberInt(07),  "Bola2"  : NumberInt(14) , "Bola3"  : NumberInt(29) , "Bola4"  : NumberInt(45) , "Bola5"  : NumberInt(49) , "Bola6"  : NumberInt(60) , "DataSorteio" : Date('2003-10-20 20:40:00')},
+{"NumeroSorteio" :NumberInt(6), "Bola1"  : NumberInt(11),  "Bola2"  : NumberInt(20) , "Bola3"  : NumberInt(32) , "Bola4"  : NumberInt(49) , "Bola5"  : NumberInt(50) , "Bola6"  : NumberInt(59) , "DataSorteio" : Date('2003-10-27 20:40:00')}
+]);
+
+> db.MegaSena.NumerosSorteados.find({});
+                OU
+> db.MegaSena.NumerosSorteados.find();
+
+
+> db.MegaSena.NumerosSorteados.find().pretty();
+
+> db.MegaSena.NumerosSorteados.find( {"Bola1": 7}).pretty();
+
+> db.MegaSena.NumerosSorteados.find( {"Bola1": { $in : [9,7,11,12,15] }}).pretty();
+
+> db.MegaSena.NumerosSorteados.find( {
+                                      "Bola1": { $in : [9,7,11,12,15] }, 
+                                      "Bola2": {$in: [20,14]}
+                                      }).pretty();
+
+> db.MegaSena.NumerosSorteados.find( {
+                                      "Bola1": { $in : [9,7,11,12,15] }, 
+                                      "Bola2": { $in: [20,14]}, 
+                                      "Bola3": { $lt:20 } 
+                                      }).pretty();
+
+
+> db.MegaSena.NumerosSorteados.find( {
+                                        "Bola1": { $in : [9,7,11,12,15] }, 
+                                         $or :[ 
+                                                 { "Bola2": {$in : [8,14,15] } },
+                                                 { "Bola5": { $in : [9,7,11,12,15] } } 
+                                               
+                                              ]                                      
+                                        }).pretty();
+  
+> db.MegaSena.NumerosSorteados.find( {
+                                       "NumeroSorteio" : {$gte: 1, $lte: 30 },
+                                        "Bola1": { $in : [9,7,11,12,15] }, 
+                                             $or :[ 
+                                                     { "Bola2": {$in : [8,14,15] } },
+                                                     { "Bola5": { $in : [9,7,11,12,15] } } 
+                                                   
+                                                  ],
+                                        "Bola3" : { $gt : 29}                                                
+                                            }).pretty();
+                                    
+DataIncial = new Date (01/12/2021)
+
+> db.MegaSena.NumerosSorteados.find( { "inserted" : { $gte : DataInicial } });
+
+> db.MegaSena.NumerosSorteados.find( { "NumeroSorteio" : {$ne: 1 }, 
+                                       $and : [{"Bola1": 
+                                                        { $nin : [9,7,11,12,15] }
+                                                }]
+                                     }).pretty();
+
+> show databases;
+
+> use SocialMidias;
+
+> db.usuario.find({"message": {$regex: /ganhou/ }}).pretty();
+
+> db.usuario.find({"nome": {$regex: /ad/ }}).pretty();
+
+> db.usuario.find({"nome": {$regex: /ad/i }}).pretty();
+
+> db.MegaSena.NumerosSorteados.update( {"NumeroSorteio" : { $in: [3,5]}} , { $set : { "LocalidadeSorteio": "SP"}});
+
+> db.MegaSena.NumerosSorteados.updateMany( {} , { $set : { "LocalidadeSorteio": "MG"}});
+
+> use SocialMidias;
+
+> db.usuario.update( {} , {$set: { "GostaDoCampeao": [] }}, 
+                          {upsert: false, multi: true} );
+
+> db.usuario.update( {} , {$set: { "GostaDoCampeao": "" }}, 
+                          {upsert: false, multi: true} );
+
+> db.usuario.update( {} , {$set: { "GostaDoCampeao": null }}, 
+                          {upsert: false, multi: true} );
+                          
+> use Loterias;
+
+> db.MegaSena.NumerosSorteados.find({"$where" : function () {
+                             for (var current in this) {
+                                 for (var other in this) {
+                                     if (current != other && this[current] == this[other]) {
+                                         return true;
+                                     }
+                                 }
+                             }
+                             return false;
+                             }});
+
+> db.usuario.find({"nome": {$regex: /ad/i }}).pretty().limit(1);
+
+> db.usuario.find({"nome": {$regex: /ad/i }}).pretty().skip(1);
+
+
+> use sample_restaurants;
+
+> db.restaurants.find(
+                       {"cuisine" : "American"}
+                       ).pretty().sort(
+                                        {"name" : 1, "borough" :-1});
+
+
+Para restaurar os databases de exemplo que foram baixados:
+
+Vamos baixar as ferramentas 
+                                        
+E restaurar os arquivos com o comando
+
+mongorestore.exe --archive="C:\Files\PosGraduação\IEC\ENGENHARIA DE DADOS\BANCOS DE DADOS NOSQL\FILES_PRATICA\sampledata.archive"
+                                        
+
+

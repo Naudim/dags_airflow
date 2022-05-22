@@ -354,11 +354,11 @@ data:
 
 # Fernet key settings
 # Note: fernetKey can only be set during install, not upgrade
-fernetKey: "f3cfe9ed8fae309f02079dbf"
+fernetKey: ~
 fernetKeySecretName: ~
 
 # Flask secret key for Airflow Webserver: `[webserver] secret_key` in airflow.cfg
-webserverSecretKey: "f3cfe9ed8fae309f02079dbf"
+webserverSecretKey: ~
 webserverSecretKeySecretName: ~
 
 # In order to use kerberos you need to create secret containing the keytab file
@@ -888,9 +888,9 @@ webserver:
     enabled: true
     role: Admin
     username: admin
-    email: naudim@gmail.com
-    firstName: Arnaldo
-    lastName: Flávio
+    email: admin@example.com
+    firstName: user
+    lastName: name
     password: admin
 
   # Launch additional containers into webserver.
@@ -1576,7 +1576,7 @@ dags:
     # ssh examples ssh://git@github.com/apache/airflow.git
     # git@github.com:apache/airflow.git
     # https example: https://github.com/apache/airflow.git
-    repo: https://github.com/Naudim/dags_airflow.git
+    repo: https://github.com/apache/airflow.git
     branch: main
     rev: HEAD
     depth: 1

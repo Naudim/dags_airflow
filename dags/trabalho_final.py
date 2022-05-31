@@ -1,6 +1,7 @@
 from airflow.decorators import task, dag
 from airflow.operators.python import PythonOperator
 from airflow.operators.dummy import DummyOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow.models import Variable
 from datetime import datetime
 import boto3
@@ -60,13 +61,18 @@ def indicadores_loteria():
         )
         return True
 
+    triga_dag = TriggerDagRunOperator(
+        task_id='triga_dag',
+        trigger_dag_id='trabalho_final_DAG2'
+    )
+
     fim = DummyOperator(task_id="fim")
 
     # Orquestração
     start = inicio()
     indicadores = emr_process_loteria(start)
     wait_step = wait_emr_job(indicadores)
-    wait_step >> fim
+    wait_step >> triga_dag >> fim
     #---------------
 
 execucao = indicadores_loteria()

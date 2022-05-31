@@ -16,10 +16,10 @@ client = boto3.client(
 
 default_args = {
     'owner': 'Arnaldo',
-    'start_date': datetime(2022, 4, 2)
+    'start_date': datetime(2022, 5, 30)
 }
 
-@dag(default_args=default_args, schedule_interval="@once", description="Executa um job Spark no EMR", catchup=False, tags=['Spark','EMR'])
+@dag(default_args=default_args, schedule_interval="@once", description="Executa um job Spark no EMR", catchup=True, tags=['Spark','EMR'])
 def indicadores_loteria():
 
     @task

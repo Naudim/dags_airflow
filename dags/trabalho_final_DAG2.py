@@ -20,7 +20,7 @@ default_args = {
 }
 
 @dag(default_args=default_args, schedule_interval="@once", description="Executa um job Spark no EMR para carregar e unificar os indicadores da base de dados da loteria", catchup=True, tags=['Spark','EMR'])
-def indicadores_loteria():
+def indicadores_loteria_unificados():
 
     @task
     def inicio():
@@ -69,5 +69,5 @@ def indicadores_loteria():
     wait_step >> fim
     #---------------
 
-execucao = indicadores_loteria()
+execucao = indicadores_loteria_unificados()
  

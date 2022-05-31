@@ -20,14 +20,14 @@ default_args = {
 }
 
 @dag(default_args=default_args, schedule_interval="@once", description="Executa um job Spark no EMR para carregar e unificar os indicadores da base de dados da loteria", catchup=True, tags=['Spark','EMR'])
-def indicadores_loteria_unificados():
+def indicadores_unificados_loteria():
 
     @task
     def inicio():
         return True
     
     @task
-    def emr_process_loteria(success_before: bool):
+    def emr_process_unificaindicadores_loteria(success_before: bool):
         if success_before:
             newstep = client.add_job_flow_steps(
                 JobFlowId="j-2OT0LUEO86OWH",
@@ -64,10 +64,10 @@ def indicadores_loteria_unificados():
 
     # Orquestração
     start = inicio()
-    indicadores = emr_process_loteria(start)
+    indicadores = emr_process_unificaindicadores_loteria(start)
     wait_step = wait_emr_job(indicadores)
     wait_step >> fim
     #---------------
 
-execucao = indicadores_loteria_unificados()
+execucao = indicadores_unificados_loteria()
  

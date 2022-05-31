@@ -63,7 +63,7 @@ def indicadores_loteria():
 
     triga_dag = TriggerDagRunOperator(
         task_id='triga_dag',
-        trigger_dag_id='trabalho_final_DAG2'
+        trigger_dag_id='indicadores_unificados_loteria'
     )
 
     fim = DummyOperator(task_id="fim")

@@ -32,7 +32,7 @@ def indicadores_loteria():
             newstep = client.add_job_flow_steps(
                 JobFlowId="j-2OT0LUEO86OWH",
                 Steps=[{
-                    'Name': 'Processa indicadores Titanic',
+                    'Name': 'Processa indicadores Loteria',
                     'ActionOnFailure': "CONTINUE",
                     'HadoopJarStep': {
                         'Jar': 'command-runner.jar',
